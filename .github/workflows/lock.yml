@@ -11,6 +11,9 @@ on:
           - 'Scheduled'
           - 'Testing'
           - 'Issue'
+      link:
+        description: 'link to issue or PR'
+        required: false
       mode:
         type: choice
         description: 'The mode to use: check, lock, unlock'
@@ -33,4 +36,5 @@ jobs:
         with:
           mode: ${{ github.event.inputs.mode }}
           reason: ${{ github.event.inputs.reason }}
+          link: ${{ github.event.inputs.link }}
           environment: global

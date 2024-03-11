@@ -1,0 +1,36 @@
+name: lock-dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        type: choice
+        description: 'Reason for claiming the deployment lock'
+        required: false
+        options:
+          - 'Scheduled'
+          - 'Testing'
+          - 'Issue'
+      mode:
+        type: choice
+        description: 'The mode to use: check, lock, unlock'
+        required: true
+        options:
+          - 'lock'
+          - 'unlock'
+          - 'check'
+        default: 'lock'
+
+permissions:
+  contents: write
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: github/lock@v2.1.3
+        id: lock
+        with:
+          mode: ${{ github.event.inputs.mode }}
+          reason: ${{ github.event.inputs.reason }}
+          environment: global

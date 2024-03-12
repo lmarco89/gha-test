@@ -15,9 +15,9 @@ jobs:
         with:
           mode: check
 
-      - name: Print lock status
+      - name: lock status
         run: |
           echo "Lock status: ${{ steps.lock.outputs.locked }}"
-          if [ ${{ steps.lock.outputs.locked }} == "true"]; then
+          if [ ${{ steps.lock.outputs.locked }} == "true" ]; then
             exit 1
           fi

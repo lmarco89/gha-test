@@ -20,10 +20,15 @@ jobs:
           echo "Lock status: ${{ steps.lock.outputs.locked }}"
 
           if [ ${{ steps.lock.outputs.locked }} == false ]; then
+            echo "No lock in place"
               exit 0
           fi
 
+          echo "Locked by: ${{ steps.lock.outputs.created_by }}"
+          echo "Pull request creator: ${{ github.event.pull_request.user.login }}"
+
           if [ ${{ steps.lock.outputs.created_by }} == ${{ github.event.pull_request.user.login }} ]; then
+            echo "Lock was created by current pull request creator"
             exit 0
           fi
 

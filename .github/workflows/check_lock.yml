@@ -18,6 +18,13 @@ jobs:
       - name: lock status
         run: |
           echo "Lock status: ${{ steps.lock.outputs.locked }}"
-          if [ ${{ steps.lock.outputs.locked }} == true ]; then
-            exit 1
+
+          if [ ${{ steps.lock.outputs.locked }} == false ]; then
+              exit 0
           fi
+
+          if [ ${{ steps.lock.outputs.created_by }} == ${{ github.event.pull_request.user.login }} ]; then
+            exit 0
+          fi
+
+          exit 1

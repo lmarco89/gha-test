@@ -50,7 +50,7 @@ jobs:
             });
 
             for (const pr of pullRequests) {
-              await github.checks.create({
+              await github.rest.checks.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: 'lock-check',

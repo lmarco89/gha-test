@@ -35,3 +35,25 @@ jobs:
           mode: ${{ github.event.inputs.mode }}
           reason: ${{ github.event.inputs.reason }}
           environment: global
+
+  trigger-lock-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Lock Check on All PRs
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const { data: pullRequests } = await github.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+
+            for (const pr of pullRequests) {
+              await github.checks.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'lock-check',
+                head_sha: pr.head.sha
+              });
+            }
